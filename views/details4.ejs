@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs') %>
+</head>
+<body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div id="container" class="container">
+        <%- include('./partials/sidebar.ejs') %>
+        <div id="main" class="main" style="background-color: #f9f9f9; padding: 20px;">
+
+            <% if (video) { %>
+            <div style="text-align: center;">
+                <!-- Video Title -->
+                <h1 style="font-size: 2em; color: #333;"><%= video.title %></h1>
+
+                <!-- Video Description -->
+                <p><strong>Description:</strong> <%= video.description %></p>
+                <p><strong>Choreographer:</strong> <%= video.choreographer || 'Unknown' %></p>
+                <p><strong>Genre:</strong> <%= video.genre || 'Unknown' %></p>
+                <p><strong>Tags:</strong> <%= (video.tags || []).join(', ') || 'None' %></p>
+                <p><strong>Uploaded:</strong> <%= video.uploadDate ? new Date(video.uploadDate).toLocaleDateString() : 'N/A' %></p>
+
+                <!-- Video Player -->
+                <video controls style="max-width: 100%; margin: 20px 0; border: 1px solid #ccc; border-radius: 5px;">
+                    <source src="<%= video.fileUrl %>" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+
+                <!-- Action Buttons -->
+                <div style="margin-top: 20px;">
+                    <form action="/dance-videos/<%= video._id %>?_method=DELETE" method="POST" style="display: inline-block; margin-right: 10px;">
+                        <button type="submit" style="background-color: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Delete Video</button>
+                    </form>
+                    <a href="/dance-videos" style="text-decoration: none; background-color: #3498db; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Back to List</a>
+                </div>
+            </div>
+            <% } else { %>
+                <p style="text-align: center; font-size: 1.5em; color: #e74c3c;">Video not found.</p>
+            <% } %>
+
+        </div>
+    </div>
+    <%- include('./partials/footer.ejs') %>
+</body>
+</html>
